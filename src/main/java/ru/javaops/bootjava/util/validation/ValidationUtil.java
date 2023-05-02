@@ -15,7 +15,6 @@ public class ValidationUtil {
         }
     }
 
-    //  Conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
     public static void assureIdConsistent(HasId bean, int id) {
         if (bean.isNew()) {
             bean.setId(id);
@@ -29,8 +28,13 @@ public class ValidationUtil {
             throw new IllegalRequestDataException("Entity with id=" + id + " not found");
         }
     }
+    public static <T> T checkExisted(T obj, int id) {
+        if (obj == null) {
+            throw new IllegalRequestDataException("Entity with id=" + id + " not found");
+        }
+        return obj;
+    }
 
-    //  https://stackoverflow.com/a/65442410/548473
     @NonNull
     public static Throwable getRootCause(@NonNull Throwable t) {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);
