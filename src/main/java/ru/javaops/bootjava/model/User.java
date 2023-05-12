@@ -1,5 +1,6 @@
 package ru.javaops.bootjava.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -59,7 +60,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
             uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false )
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
