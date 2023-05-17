@@ -1,4 +1,4 @@
-package ru.javaops.bootjava.web.voit;
+package ru.javaops.bootjava.web.voice;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +7,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.javaops.bootjava.error.IllegalRequestDataException;
 import ru.javaops.bootjava.model.Voice;
 import ru.javaops.bootjava.repository.RestaurantRepository;
 import ru.javaops.bootjava.repository.UserRepository;
-import ru.javaops.bootjava.repository.VoiceRepository;
+import ru.javaops.bootjava.service.VoiceService;
+import ru.javaops.bootjava.to.VoiceTo;
 import ru.javaops.bootjava.util.validation.ValidationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalTime;
 import java.util.List;
+
+import static ru.javaops.bootjava.util.validation.ValidationUtil.assureIdConsistent;
 
 @RestController
 @Slf4j
@@ -24,7 +29,7 @@ public class VoiceController {
 
     static final String REST_URL = "/api/voice";
     @Autowired
-    protected VoiceRepository voiceRepository;
+    protected VoiceService voiceService;
     @Autowired
     protected RestaurantRepository restaurantRepository;
     @Autowired
@@ -33,20 +38,20 @@ public class VoiceController {
     @GetMapping
     public List<Voice> getAll() {
         log.info("getAll");
-        return voiceRepository.findAll();
+        return voiceService.getAll();
     }
 
-    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public Voice get(@PathVariable int id) {
         log.info("get {}", id);
-        return voiceRepository.get(id);
+        return voiceService.get(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Voice> createWithLocation(@Valid @RequestBody Voice voice) {
+    @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Voice> createWithLocation(@Valid @RequestBody Voice voice, @PathVariable int restaurantId) {
         log.info("create restaurant {}", voice);
         ValidationUtil.checkNew(voice);
-        Voice created = voiceRepository.save(voice);
+        Voice created = voiceService.create(voice, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL)
                 .buildAndExpand(created.getId()).toUri();
@@ -56,14 +61,17 @@ public class VoiceController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         log.info("delete voice {}", id);
-        voiceRepository.delete(id);
+        voiceService.delete(id);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestParam Voice voice, @PathVariable int id) {
-        log.info("update {} with id = {}", voice, id);
-        ValidationUtil.assureIdConsistent(voice, id);
-        Voice voiceDB = voiceRepository.get(voice.id());
+    public void update(@Valid @RequestBody VoiceTo voiceTo, @PathVariable int id) {
+        log.info("update {} with id = {}", voiceTo, id);
+        if (!LocalTime.now().isBefore(LocalTime.of(11,00,00))){
+            throw new IllegalRequestDataException("Извините голосовать можно только до 11:00");
+        }
+        assureIdConsistent(voiceTo, id);
+        voiceService.update(voiceTo);
     }
 }

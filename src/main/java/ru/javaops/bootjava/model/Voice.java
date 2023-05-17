@@ -23,9 +23,24 @@ public class Voice extends BaseEntity implements HasId, Serializable {
     @NotNull
     private LocalDateTime registered = LocalDateTime.now();
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
+
+    public Voice(Integer id, boolean enabled, LocalDateTime now, User user, Restaurant restaurant) {
+        super(id);
+        this.enabled = enabled;
+        this.registered = now;
+        this.user = user;
+        this.restaurant = restaurant;
+    }
+
+    public Voice() {
+
+    }
 }
