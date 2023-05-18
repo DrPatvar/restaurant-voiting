@@ -19,6 +19,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class VoiceService {
 
+
     @Autowired
     protected VoiceRepository voiceRepository;
 
@@ -29,11 +30,11 @@ public class VoiceService {
     protected RestaurantRepository restaurantRepository;
 
     public Voice get(int id) {
-        return voiceRepository.getByIdWithUserId(id,SecurityUtil.authId());
+        return voiceRepository.getWithUser(id, SecurityUtil.authId());
     }
 
     public List<Voice> getAll() {
-        return voiceRepository.findAll();
+        return voiceRepository.findVoices();
     }
 
     @Transactional
@@ -57,6 +58,7 @@ public class VoiceService {
         }
     }
 
+    @Transactional
     public Voice create(Voice voice, int restaurantId) {
         List<Voice> voiceList = voiceRepository.getAllByUserVoice(SecurityUtil.authId());
         for (Voice v: voiceList) {
@@ -69,6 +71,7 @@ public class VoiceService {
         return voiceRepository.save(voice);
     }
 
+    @Transactional
     public void delete(int id) {
         voiceRepository.delete(id);
     }

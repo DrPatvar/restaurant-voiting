@@ -16,3 +16,32 @@ If it is after 11:00 then it is too late, vote can't be changed
 Each restaurant provides a new menu each day.
 
 As a result, provide a link to github repository. It should contain the code, README.md with API documentation and couple curl commands to test it (better - link to Swagger).
+
+http://localhost:8080/swagger-ui/index.html
+
+user@yandex.ru/ password
+admin@yandex.ru/ admin
+
+curl samples (application deployed at application context `restaurant-voiting`).
+
+get All Users
+curl -s http://localhost:8080/api/admin/users
+
+get Users 1
+curl -s http://localhost:8080/api/admin/users/1
+
+get All Meals
+curl -s http://localhost:8080/api/meals
+
+get All Voice
+curl -s http://localhost:8080/api/voice
+
+create Voice
+curl -s -X POST -d '{"enabled":true}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voice/1
+
+delete Voice
+curl -s -X DELETE http://localhost:8080/api/voice/1
+
+update Voice
+curl -s -X PUT -d '{"enabled" : true, "restaurantId": 1}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voice/1
+

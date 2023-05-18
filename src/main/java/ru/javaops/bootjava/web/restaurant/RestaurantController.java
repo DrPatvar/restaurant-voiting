@@ -14,20 +14,29 @@ import ru.javaops.bootjava.util.validation.ValidationUtil;
 import javax.validation.Valid;
 import java.net.URI;
 
+import static ru.javaops.bootjava.util.validation.ValidationUtil.assureIdConsistent;
+
 @RestController
 @Slf4j
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
 
-    static final String REST_URL = "/api/restaurant";
+    static final String REST_URL = "/api/admin/restaurant";
 
     @Autowired
     protected RestaurantRepository restaurantRepository;
-
     @GetMapping("/{id}")
     public Restaurant get (@PathVariable int id){
         log.info("get restaurant");
         return restaurantRepository.get(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id){
+        log.info("update restaurant");
+        assureIdConsistent(restaurant, id);
+        restaurantRepository.save(restaurant);
     }
 
     @DeleteMapping("/{id}")

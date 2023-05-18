@@ -1,20 +1,20 @@
 package ru.javaops.bootjava.to;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import ru.javaops.bootjava.HasId;
+import lombok.Value;
+import javax.validation.constraints.NotNull;
 
-import java.io.Serializable;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class VoiceTo implements Serializable, HasId {
-
-    private Integer id;
+@Value
+public class VoiceTo extends BaseTo {
 
     private boolean enabled;
 
+    @NotNull
     private Integer restaurantId;
+
+    public VoiceTo(Integer id, boolean enabled, Integer restaurantId) {
+        super(id);
+        this.enabled = enabled;
+        this.restaurantId = restaurantId;
+    }
 }

@@ -19,4 +19,8 @@ public class Restaurant extends NamedEntity implements HasId {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    public Restaurant(Integer id, String name) {
+        super(id, name);
+    }
 }

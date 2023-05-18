@@ -37,12 +37,19 @@ public class MealController {
         return mealRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/with-menu")
     public List<Meal> getAllMealMenu(@PathVariable int id) {
         log.info("getMealMenu");
         List<Meal> mealList = mealRepository.findByIdMenu(id);
         return mealList.isEmpty() ? new ArrayList<Meal>() : mealList;
     }
+
+    @GetMapping("/{id}")
+    public Meal get(@PathVariable int id){
+        log.info("get with id = {}", id);
+        return mealRepository.get(id);
+    }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

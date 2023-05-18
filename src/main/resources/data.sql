@@ -25,11 +25,11 @@ VALUES ('cheap', 1),
 
 INSERT INTO MEAL (NAME, PRICE, MENU_ID)
 VALUES ( 'Soup', '50', 1),
-       ('coffee', '50', 1),
-       ('bread', '5', 1),
+       ('Coffee', '50', 1),
+       ('Bread', '5', 1),
        ( 'Soup', '100', 2),
-       ('tea', '100', 2),
-       ('bread', '5', 2);
+       ('Tea', '100', 2),
+       ('Bread', '10', 2);
 
 INSERT INTO VOICE (RESTAURANT_ID, USER_ID)
 VALUES (1, 1),

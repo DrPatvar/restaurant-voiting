@@ -35,6 +35,7 @@ public class VoiceController {
     @Autowired
     protected UserRepository userRepository;
 
+
     @GetMapping
     public List<Voice> getAll() {
         log.info("getAll");

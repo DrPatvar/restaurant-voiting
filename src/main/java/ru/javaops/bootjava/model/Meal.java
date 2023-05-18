@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Range;
 import ru.javaops.bootjava.HasId;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Meal extends NamedEntity implements HasId, Serializable {
 
     @Column(name = "price", nullable = false)
     @NotNull
+    @Range(min = 5, max = 9999)
     private Integer price;
 
     @ManyToOne(fetch = FetchType.EAGER)
