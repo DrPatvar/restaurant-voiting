@@ -31,7 +31,6 @@ public class Meal extends NamedEntity implements HasId, Serializable {
     private Integer price;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_id")
     @JsonIgnore
     private Menu menu;
 

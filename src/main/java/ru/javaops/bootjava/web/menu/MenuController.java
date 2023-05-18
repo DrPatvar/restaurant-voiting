@@ -8,12 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javaops.bootjava.model.Menu;
+import ru.javaops.bootjava.model.Restaurant;
 import ru.javaops.bootjava.repository.MenuRepository;
 import ru.javaops.bootjava.repository.RestaurantRepository;
 import ru.javaops.bootjava.util.validation.ValidationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
+
+import static ru.javaops.bootjava.util.validation.ValidationUtil.assureIdConsistent;
 
 @RestController
 @Slf4j
@@ -29,16 +32,24 @@ public class MenuController {
     protected RestaurantRepository restaurantRepository;
 
     @GetMapping("/{id}")
-    public Menu menu(@PathVariable int id){
+    public Menu get(@PathVariable int id){
         log.info("getMenu");
         return menuRepository.get(id);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id){
         log.info("delete menu");
         menuRepository.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody Menu menu, @PathVariable int id){
+        log.info("update menu");
+        assureIdConsistent(menu, id);
+        menuRepository.save(menu);
     }
 
     @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
