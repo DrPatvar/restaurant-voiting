@@ -27,7 +27,7 @@ import static ru.javaops.bootjava.util.validation.ValidationUtil.assureIdConsist
 @RequestMapping(value = VoiceController.REST_URL)
 public class VoiceController {
 
-    static final String REST_URL = "/api/voice";
+    static final String REST_URL = "/api/voices";
     @Autowired
     protected VoiceService voiceService;
     @Autowired

@@ -23,7 +23,7 @@ import static ru.javaops.bootjava.util.validation.ValidationUtil.assureIdConsist
 @RequestMapping(value = MenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MenuController {
 
-    static final String REST_URL = "/api/menu";
+    static final String REST_URL = "/api/menus";
 
     @Autowired
     protected MenuRepository menuRepository;

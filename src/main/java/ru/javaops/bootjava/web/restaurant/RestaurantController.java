@@ -21,7 +21,7 @@ import static ru.javaops.bootjava.util.validation.ValidationUtil.assureIdConsist
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
 
-    static final String REST_URL = "/api/admin/restaurant";
+    static final String REST_URL = "/api/admin/restaurants";
 
     @Autowired
     protected RestaurantRepository restaurantRepository;

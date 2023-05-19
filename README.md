@@ -22,7 +22,7 @@ http://localhost:8080/swagger-ui/index.html
 user@yandex.ru/ password
 admin@yandex.ru/ admin
 
-curl samples (application deployed at application context `restaurant-voiting`).
+curl samples (application deployed at application context restaurant-voiting).
 
 get All Users
 curl -s http://localhost:8080/api/admin/users
