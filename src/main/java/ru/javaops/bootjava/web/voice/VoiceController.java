@@ -60,6 +60,7 @@ public class VoiceController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete voice {}", id);
         voiceService.delete(id);

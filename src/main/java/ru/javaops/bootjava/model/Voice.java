@@ -1,9 +1,10 @@
 package ru.javaops.bootjava.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.javaops.bootjava.HasId;
 
 import javax.persistence.*;
@@ -30,11 +31,16 @@ public class Voice extends BaseEntity implements HasId, Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"name", "email", "enabled", "registered", "roles"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"name"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
+
+    public Voice() {
+    }
 
     public Voice(Integer id, boolean enabled, LocalDateTime now, User user, Restaurant restaurant) {
         super(id);
@@ -44,6 +50,8 @@ public class Voice extends BaseEntity implements HasId, Serializable {
         this.restaurant = restaurant;
     }
 
-    public Voice() {
+    public Voice(Integer id, boolean enabled) {
+        super(id);
+        this.enabled = enabled;
     }
 }

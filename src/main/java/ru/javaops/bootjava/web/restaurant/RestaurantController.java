@@ -25,6 +25,7 @@ public class RestaurantController {
 
     @Autowired
     protected RestaurantRepository restaurantRepository;
+
     @GetMapping("/{id}")
     public Restaurant get (@PathVariable int id){
         log.info("get restaurant");
@@ -40,7 +41,7 @@ public class RestaurantController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id){
         log.info("delete restaurant");
         restaurantRepository.delete(id);

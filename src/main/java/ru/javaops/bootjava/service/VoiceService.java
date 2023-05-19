@@ -9,6 +9,7 @@ import ru.javaops.bootjava.repository.RestaurantRepository;
 import ru.javaops.bootjava.repository.UserRepository;
 import ru.javaops.bootjava.repository.VoiceRepository;
 import ru.javaops.bootjava.to.VoiceTo;
+import ru.javaops.bootjava.util.VoiceUtil;
 import ru.javaops.bootjava.web.SecurityUtil;
 
 import java.time.LocalDate;
@@ -39,13 +40,12 @@ public class VoiceService {
 
     @Transactional
     public void update(VoiceTo voiceTo) {
-        Voice voice = new Voice();
-        Voice voiceDB = get(voiceTo.getId());
+        Voice voice = null;
+        Voice voiceDB = get(voiceTo.id());
         if (voiceDB.getUser().id() != SecurityUtil.authId()){
             throw new IllegalRequestDataException("Данный голос принадлежит не Вам");
         }
-        voice.setId(voiceTo.getId());
-        voice.setEnabled(voiceTo.isEnabled());
+        voice = VoiceUtil.createNewFromTo(voiceTo);
         voice.setRegistered(LocalDateTime.now());
         voice.setUser(userRepository.getReferenceById(SecurityUtil.authId()));
         voice.setRestaurant(restaurantRepository.getReferenceById(voiceTo.getRestaurantId()));

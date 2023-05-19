@@ -35,7 +35,7 @@ public class Menu extends NamedEntity implements HasId, Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @JsonIgnore
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.EAGER)
