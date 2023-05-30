@@ -9,12 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javaops.bootjava.model.User;
+import ru.javaops.bootjava.model.Voice;
 import ru.javaops.bootjava.to.UserTo;
 import ru.javaops.bootjava.util.UserUtil;
 import ru.javaops.bootjava.web.AuthUser;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
 
 import static ru.javaops.bootjava.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.javaops.bootjava.util.validation.ValidationUtil.checkNew;
@@ -54,5 +56,11 @@ public class ProfileController extends AbstractUserController {
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
         prepareAndSave(UserUtil.updateFromTo(user, userTo));
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Voice> getVoices(@PathVariable int id){
+        log.info("get user voices{}", id);
+        return repository.findAllVoice(id);
     }
 }

@@ -75,6 +75,4 @@ public class VoiceService {
     public void delete(int id) {
         voiceRepository.delete(id);
     }
-
-
 }

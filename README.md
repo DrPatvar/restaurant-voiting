@@ -34,14 +34,14 @@ get All Meals
 curl -s http://localhost:8080/api/meals
 
 get All Voice
-curl -s http://localhost:8080/api/voice
+curl -s http://localhost:8080/api/voices
 
 create Voice
-curl -s -X POST -d '{"enabled":true}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voice/1
+curl -s -X POST -d '{"enabled":true}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voices/1
 
 delete Voice
-curl -s -X DELETE http://localhost:8080/api/voice/1
+curl -s -X DELETE http://localhost:8080/api/voices/1
 
 update Voice
-curl -s -X PUT -d '{"enabled" : true, "restaurantId": 1}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voice/1
+curl -s -X PUT -d '{"enabled" : true, "restaurantId": 1}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voices/1
 
