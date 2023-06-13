@@ -24,7 +24,7 @@
     setter: none
     is-getter: none
 
- cache:
+  cache:
     cache-names: users
     caffeine.spec: maximumSize=5000,expireAfterAccess=60s
 
