@@ -19,8 +19,8 @@ As a result, provide a link to github repository. It should contain the code, RE
 
 http://localhost:8080/swagger-ui/index.html
 
-user@yandex.ru/ password
-admin@yandex.ru/ admin
+user@yandex.com/ password
+admin@yandex.com/ admin
 
 curl samples (application deployed at application context restaurant-voiting).
 

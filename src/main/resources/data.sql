@@ -1,10 +1,10 @@
 INSERT INTO USERS (NAME, EMAIL, PASSWORD)
-VALUES ('User1', 'user1@yandex.ru', '{noop}password'),
-       ('User2', 'user2@yandex.ru', '{noop}password'),
-       ('User3', 'user3@yandex.ru', '{noop}password'),
-       ('User4', 'user4@yandex.ru', '{noop}password'),
-       ('User5', 'user5@yandex.ru', '{noop}password'),
-       ('Admin', 'admin@yandex.ru', '{noop}admin');
+VALUES ('User1', 'user1@yandex.com', '{noop}password'),
+       ('User2', 'user2@yandex.com', '{noop}password'),
+       ('User3', 'user3@yandex.com', '{noop}password'),
+       ('User4', 'user4@yandex.com', '{noop}password'),
+       ('User5', 'user5@yandex.com', '{noop}password'),
+       ('Admin', 'admin@yandex.com', '{noop}admin');
 
 INSERT INTO USER_ROLE (ROLE, USER_ID)
 VALUES ('USER', 1),
