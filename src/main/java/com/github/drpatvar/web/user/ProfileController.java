@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.github.drpatvar.model.User;
-import com.github.drpatvar.model.Voice;
+import com.github.drpatvar.model.Vote;
 import com.github.drpatvar.to.UserTo;
 import com.github.drpatvar.util.UserUtil;
 import com.github.drpatvar.web.AuthUser;
@@ -56,11 +56,5 @@ public class ProfileController extends AbstractUserController {
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
         prepareAndSave(UserUtil.updateFromTo(user, userTo));
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Voice> getVoices(@PathVariable int id){
-        log.info("get user voices{}", id);
-        return repository.findAllVoice(id);
     }
 }

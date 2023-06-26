@@ -5,7 +5,7 @@ import com.github.drpatvar.web.MatcherFactory;
 
 public class MenuTestData {
 
-    public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Menu.class, "registered", "meals", "restaurant");
+    public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Menu.class, "registered", "dishes", "restaurant");
 
     public static final int MENU_ID = 1;
     public static final int RESTAURANT_ID = 1;

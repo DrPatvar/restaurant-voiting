@@ -13,6 +13,7 @@ import com.github.drpatvar.util.validation.ValidationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 import static com.github.drpatvar.util.validation.ValidationUtil.assureIdConsistent;
 
@@ -30,6 +31,12 @@ public class RestaurantController {
     public Restaurant get (@PathVariable int id){
         log.info("get restaurant");
         return restaurantRepository.get(id);
+    }
+
+    @GetMapping
+    public List<Restaurant> getAll(){
+        log.info("getAll restaurant");
+        return restaurantRepository.findAll();
     }
 
     @PutMapping("/{id}")

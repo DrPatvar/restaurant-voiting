@@ -8,29 +8,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import com.github.drpatvar.HasId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "restaurant_id"},
+        name = "menu_unique_restaurant_date_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Menu extends NamedEntity implements HasId, Serializable {
+public class Menu extends NamedEntity {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
-    @NotNull
+    @Column(name = "date")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date registered = new Date();
+    private LocalDate date;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
@@ -38,12 +33,16 @@ public class Menu extends NamedEntity implements HasId, Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.EAGER)
+   /* @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Meal> meals;
+    private List<Dish> dishes;*/
 
     public Menu(Integer id, String name) {
         super(id, name);
+    }
+
+    public Menu(Integer id, String name, LocalDate date) {
+        super(id, name);
+        this.date = date;
     }
 }

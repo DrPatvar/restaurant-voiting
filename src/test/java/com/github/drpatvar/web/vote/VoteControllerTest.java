@@ -1,15 +1,15 @@
-package com.github.drpatvar.web.voice;
+package com.github.drpatvar.web.vote;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import com.github.drpatvar.model.Voice;
-import com.github.drpatvar.repository.VoiceRepository;
-import com.github.drpatvar.to.VoiceTo;
+import com.github.drpatvar.model.Vote;
+import com.github.drpatvar.repository.VoteRepository;
+import com.github.drpatvar.to.VoteTo;
 import com.github.drpatvar.util.JsonUtil;
-import com.github.drpatvar.util.VoiceUtil;
+import com.github.drpatvar.util.VoteUtil;
 import com.github.drpatvar.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -18,18 +18,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static com.github.drpatvar.TestUtil.userHttpBasic;
 import static com.github.drpatvar.web.user.UserTestData.admin;
 import static com.github.drpatvar.web.user.UserTestData.user;
-import static com.github.drpatvar.web.voice.VoiceTestData.*;
+import static com.github.drpatvar.web.vote.VoteTestData.*;
 
-class VoiceControllerTest extends AbstractControllerTest {
+class VoteControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = VoiceController.REST_URL + '/';
+    private static final String REST_URL = VoteController.REST_URL + '/';
 
     @Autowired
-    protected VoiceRepository voiceRepository;
+    protected VoteRepository voteRepository;
 
     @Test
     void getUnauth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VOICE_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + VOTE_ID))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -40,53 +40,47 @@ class VoiceControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOICE_MATCHER.contentJson(voices));
+                .andExpect(VOTE_MATCHER.contentJson(voices));
     }
 
     @Test
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VOICE_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + VOTE_ID)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOICE_MATCHER.contentJson(voice1));
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_1));
     }
 
     @Test
     void createWithLocation() throws Exception {
-        Voice newVoice = VoiceTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + RESTAURANT_ID)
+        VoteTo newVoteTo = VoteTestData.getNew();
+        Vote newVote = VoteUtil.createNewFromTo(newVoteTo);
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newVoice)))
+                .content(JsonUtil.writeValue(newVoteTo)))
                 .andExpect(status().isCreated())
                 .andDo(print());
 
-        Voice created = VOICE_MATCHER.readFromJson(action);
+        Vote created = VOTE_MATCHER.readFromJson(action);
         int newId = created.id();
-        newVoice.setId(newId);
-        VOICE_MATCHER.assertMatch(created, newVoice);
-        VOICE_MATCHER.assertMatch(voiceRepository.get(newId), newVoice);
-    }
-
-    @Test
-    void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + VOICE_ID)
-                .with(userHttpBasic(user)))
-                .andExpect(status().isNoContent());
+        newVote.setId(newId);
+        VOTE_MATCHER.assertMatch(created, newVote);
+        VOTE_MATCHER.assertMatch(voteRepository.get(newId), newVote);
     }
 
     @Test
     //тест необходимо запускать до 11:00
     void update() throws Exception {
-        VoiceTo updated = VoiceTestData.updated();
-        perform(MockMvcRequestBuilders.put(REST_URL + RESTAURANT_ID)
+        VoteTo updatedTo = VoteTestData.updated();
+        perform(MockMvcRequestBuilders.put(REST_URL + VOTE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(user))
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updatedTo)))
                 .andExpect(status().isNoContent());
-        Voice voice = VoiceUtil.createNewFromTo(updated);
-        VOICE_MATCHER.assertMatch(voiceRepository.get(VOICE_ID), voice);
+        Vote vote = VoteUtil.createNewFromTo(updatedTo);
+        VOTE_MATCHER.assertMatch(voteRepository.get(VOTE_ID), vote);
     }
 }

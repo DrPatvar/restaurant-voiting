@@ -61,7 +61,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     void createWithLocation() throws Exception{
         Menu newMenu = MenuTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + RESTAURANT_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))

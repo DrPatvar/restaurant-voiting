@@ -1,6 +1,8 @@
 package com.github.drpatvar.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.drpatvar.HasIdAndEmail;
+import com.github.drpatvar.util.validation.NoHtml;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,16 +10,12 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
-import com.github.drpatvar.HasIdAndEmail;
-import com.github.drpatvar.util.validation.NoHtml;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.EnumSet;
@@ -28,9 +26,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends NamedEntity implements HasIdAndEmail, Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class User extends NamedEntity implements HasIdAndEmail {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
