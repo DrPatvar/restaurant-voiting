@@ -1,6 +1,5 @@
 package com.github.drpatvar.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.drpatvar.HasId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -23,13 +24,8 @@ public class Dish extends NamedEntity implements HasId {
     @Range
     private Integer price;
 
-    /*@ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Menu menu;*/
-
     public Dish(Integer id, String name, Integer price) {
         super(id, name);
         this.price = price;
     }
-
 }

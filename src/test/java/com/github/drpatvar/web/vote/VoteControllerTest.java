@@ -1,24 +1,30 @@
 package com.github.drpatvar.web.vote;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import com.github.drpatvar.config.ClockHolder;
 import com.github.drpatvar.model.Vote;
 import com.github.drpatvar.repository.VoteRepository;
 import com.github.drpatvar.to.VoteTo;
 import com.github.drpatvar.util.JsonUtil;
 import com.github.drpatvar.util.VoteUtil;
 import com.github.drpatvar.web.AbstractControllerTest;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
+
 import static com.github.drpatvar.TestUtil.userHttpBasic;
 import static com.github.drpatvar.web.user.UserTestData.admin;
 import static com.github.drpatvar.web.user.UserTestData.user;
 import static com.github.drpatvar.web.vote.VoteTestData.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class VoteControllerTest extends AbstractControllerTest {
 
@@ -26,6 +32,12 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Autowired
     protected VoteRepository voteRepository;
+
+    @BeforeAll
+    static void setUpClock(){
+        final Clock fixed = Clock.fixed(Instant.parse("2023-06-23T10:00:00Z"), ZoneId.of("UTC"));
+        ClockHolder.setClock(fixed);
+    }
 
     @Test
     void getUnauth() throws Exception {
@@ -40,7 +52,7 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(voices));
+                .andExpect(VOTE_MATCHER.contentJson(VOTES));
     }
 
     @Test
@@ -72,7 +84,6 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    //тест необходимо запускать до 11:00
     void update() throws Exception {
         VoteTo updatedTo = VoteTestData.updated();
         perform(MockMvcRequestBuilders.put(REST_URL + VOTE_ID)
@@ -80,7 +91,7 @@ class VoteControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(user))
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andExpect(status().isNoContent());
-        Vote vote = VoteUtil.createNewFromTo(updatedTo);
+        Vote vote = VoteUtil.updateFromTo(updatedTo);
         VOTE_MATCHER.assertMatch(voteRepository.get(VOTE_ID), vote);
     }
 }

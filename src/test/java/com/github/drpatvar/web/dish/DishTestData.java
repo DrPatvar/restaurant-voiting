@@ -1,4 +1,4 @@
-package com.github.drpatvar.web.meal;
+package com.github.drpatvar.web.dish;
 
 import com.github.drpatvar.model.Dish;
 import com.github.drpatvar.web.MatcherFactory;

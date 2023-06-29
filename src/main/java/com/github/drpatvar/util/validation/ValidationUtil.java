@@ -1,19 +1,21 @@
 package com.github.drpatvar.util.validation;
 
+import com.github.drpatvar.HasId;
+import com.github.drpatvar.config.ClockHolder;
+import com.github.drpatvar.error.IllegalRequestDataException;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
-import com.github.drpatvar.HasId;
-import com.github.drpatvar.error.IllegalRequestDataException;
 
 import java.time.LocalTime;
 
 @UtilityClass
 public class ValidationUtil {
 
-    public static void checkTime(){
-        if (!LocalTime.now().isBefore(LocalTime.of(11,00,00))){
-            throw new IllegalRequestDataException("Извините голосовать или менять можно только до 11:00");
+    public static void checkTime() {
+        LocalTime time = LocalTime.now(ClockHolder.getClock());
+        if (!time.isBefore(LocalTime.of(11, 00, 00))) {
+            throw new IllegalRequestDataException("You can change your vote only on the voting day before 11:00");
         }
     }
 

@@ -8,4 +8,7 @@ public class VoteUtil {
     public static Vote createNewFromTo(VoteTo voteTo){
         return new Vote(null);
     }
+    public static Vote updateFromTo(VoteTo voteTo){
+        return new Vote(voteTo.getId());
+    }
 }

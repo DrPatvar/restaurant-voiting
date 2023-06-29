@@ -1,4 +1,4 @@
-package com.github.drpatvar.web.meal;
+package com.github.drpatvar.web.dish;
 
 import com.github.drpatvar.model.Dish;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static com.github.drpatvar.TestUtil.userHttpBasic;
-import static com.github.drpatvar.web.meal.DishTestData.*;
+import static com.github.drpatvar.web.dish.DishTestData.*;
 import static com.github.drpatvar.web.user.UserTestData.user;
 
 class DishControllerTest extends AbstractControllerTest {
@@ -71,7 +71,7 @@ class DishControllerTest extends AbstractControllerTest {
     @Test
     void createWithLocation() throws Exception {
         Dish newDish = DishTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + MENU_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))

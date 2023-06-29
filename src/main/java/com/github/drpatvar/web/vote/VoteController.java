@@ -27,12 +27,14 @@ import static com.github.drpatvar.util.validation.ValidationUtil.assureIdConsist
 public class VoteController {
 
     static final String REST_URL = "/api/votes";
+
     @Autowired
     protected VoteService voteService;
     @Autowired
     protected RestaurantRepository restaurantRepository;
     @Autowired
     protected UserRepository userRepository;
+
 
     @GetMapping(value = "/{id}")
     public Vote get(@PathVariable int id) {

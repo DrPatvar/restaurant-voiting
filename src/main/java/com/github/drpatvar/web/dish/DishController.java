@@ -1,4 +1,4 @@
-package com.github.drpatvar.web.meal;
+package com.github.drpatvar.web.dish;
 
 import com.github.drpatvar.model.Dish;
 import com.github.drpatvar.repository.DishRepository;
@@ -58,17 +58,17 @@ public class DishController {
     public void update(@Valid @RequestBody Dish dish, @PathVariable int id) {
         log.info("update {} with id={}", dish, id);
         assureIdConsistent(dish, id);
-        Dish dishWithDB = dishRepository.get(dish.id());
-        /*dish.setMenu(dishWithDB.getMenu());*/
-        dishRepository.save(dish);
+        Dish dishUpdated = dishRepository.get(id);
+        dishUpdated.setPrice(dish.getPrice());
+        dishUpdated.setName(dish.getName());
+        dishRepository.save(dishUpdated);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @PostMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int menuId) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish) {
         log.info("create {}", dish);
         checkNew(dish);
-        //dish.setMenu(menuRepository.getReferenceById(menuId));
         Dish created = dishRepository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

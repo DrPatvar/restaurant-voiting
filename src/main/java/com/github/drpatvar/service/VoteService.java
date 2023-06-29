@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static com.github.drpatvar.util.validation.ValidationUtil.checkTime;
 
@@ -33,7 +32,11 @@ public class VoteService {
     protected RestaurantRepository restaurantRepository;
 
     public Vote get(int id, int userId) {
-        return voteRepository.findWithUser(id, userId);
+        Vote vote = voteRepository.findWithUser(id, userId);
+        if (vote == null) {
+            throw new IllegalRequestDataException("According to this id, the user has nothing");
+        }
+        return vote;
     }
 
     public List<Vote> findAllVoice(int authUserId) {
@@ -44,8 +47,8 @@ public class VoteService {
     public void update(VoteTo voteTo, int userId) {
         checkTime();
         Vote dbVote = voteRepository.get(voteTo.getId());
-        int id = dbVote.getUser().getId();
-        if (id != userId) {
+        int dbUserId = dbVote.getUser().getId();
+        if (dbUserId != userId) {
             throw new IllegalRequestDataException("This voice does not belong to you");
         }
         dbVote.setRestaurant(restaurantRepository.getReferenceById(voteTo.getRestaurantId()));

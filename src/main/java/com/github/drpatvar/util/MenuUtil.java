@@ -9,8 +9,7 @@ public class MenuUtil {
         return new Menu(null, menuTo.getName(), menuTo.getDate());
     }
 
-    public static Menu updateFromTo (Menu menu, MenuTo menuTo){
-        menu.setName(menuTo.getName());
-        return menu;
+    public static Menu updateFromTo (MenuTo menuTo){
+        return new Menu(menuTo.getId(), menuTo.getName(), menuTo.getDate());
     }
 }

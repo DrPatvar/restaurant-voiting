@@ -40,18 +40,15 @@ curl -s http://localhost:8080/api/admin/users
 get Users 1
 curl -s http://localhost:8080/api/admin/users/1
 
-get All Meals
-curl -s http://localhost:8080/api/meals
+get All Dish
+curl -s http://localhost:8080/api/dishes
 
-get All Voice
-curl -s http://localhost:8080/api/voices
+get All User Voices
+curl -s http://localhost:8080/api/votes
 
-create Voice
-curl -s -X POST -d '{"enabled":true}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voices/1
+create Vote
+curl -s -X POST -d '{"restaurantId": 1}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/votes
 
-delete Voice
-curl -s -X DELETE http://localhost:8080/api/voices/1
-
-update Voice
-curl -s -X PUT -d '{"enabled" : true, "restaurantId": 1}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/voices/1
+update Vote
+curl -s -X PUT -d '{"restaurantId": 1}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/api/votes/1
 

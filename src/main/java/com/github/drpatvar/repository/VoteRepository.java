@@ -9,7 +9,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
 
- // @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
  @Query("SELECT v FROM Vote v WHERE v.id = ?1 AND v.user.id = ?2")
  Vote findWithUser(int id, int userId);
 

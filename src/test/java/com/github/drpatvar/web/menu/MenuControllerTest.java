@@ -1,5 +1,7 @@
 package com.github.drpatvar.web.menu;
 
+import com.github.drpatvar.to.MenuTo;
+import com.github.drpatvar.util.MenuUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,22 +51,23 @@ class MenuControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception {
-        Menu updated = MenuTestData.updated();
+        MenuTo updatedTo = MenuTestData.updatedTo();
         perform(MockMvcRequestBuilders.put(REST_URL + MENU_ID).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updatedTo)))
                 .andExpect(status().isNoContent());
-
-        MENU_MATCHER.assertMatch(menuRepository.get(MENU_ID), updated);
+        Menu menu = MenuUtil.updateFromTo(updatedTo);
+        MENU_MATCHER.assertMatch(menuRepository.get(MENU_ID), menu);
     }
 
     @Test
     void createWithLocation() throws Exception{
-        Menu newMenu = MenuTestData.getNew();
+        MenuTo newMenuTo = MenuTestData.getNewTo();
+        Menu newMenu = MenuUtil.createNewFromTo(newMenuTo);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newMenu)))
+                .content(JsonUtil.writeValue(newMenuTo)))
                 .andExpect(status().isCreated())
                 .andDo(print());
 

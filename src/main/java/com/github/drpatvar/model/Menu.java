@@ -33,9 +33,10 @@ public class Menu extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-   /* @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany
+    @Column(name = "dish_id")
     @JoinColumn(name = "menu_id")
-    private List<Dish> dishes;*/
+    private List<Dish> dishes;
 
     public Menu(Integer id, String name) {
         super(id, name);
